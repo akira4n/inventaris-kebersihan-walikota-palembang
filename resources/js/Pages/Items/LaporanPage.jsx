@@ -1,9 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, Link, router } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { useState } from "react";
 
-export default function LaporanPage({ auth, summary }) {
+export default function LaporanPage({ auth, summary, history, filters }) {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth() + 1;
@@ -12,6 +13,19 @@ export default function LaporanPage({ auth, summary }) {
         bulan: currentMonth,
         tahun: currentYear,
     });
+
+    const [perPage, setPerPage] = useState(filters.per_page || 10);
+
+    const handlePerPageChange = (e) => {
+        const value = e.target.value;
+        setPerPage(value);
+        // Reload halaman dengan parameter baru
+        router.get(
+            route("laporan.stok.page"),
+            { per_page: value },
+            { preserveState: true, replace: true }
+        );
+    };
 
     // helper format rupiah
     const formatRupiah = (number) => {
@@ -133,7 +147,154 @@ export default function LaporanPage({ auth, summary }) {
                     </div>
                 </div>
 
-                <div className="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="p-6 text-gray-900">
+                            <div className="flex justify-between items-center mb-4 border-b pb-2">
+                                <h3 className="text-lg font-bold text-gray-800">
+                                    Aktivitas Keluar/Masuk Barang
+                                </h3>
+
+                                {/* Dropdown Filter Jumlah Data */}
+                                <div className="flex items-center text-sm">
+                                    <span className="mr-2 text-gray-600">
+                                        Tampilkan:
+                                    </span>
+                                    <select
+                                        value={perPage}
+                                        onChange={handlePerPageChange}
+                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-sm py-1"
+                                    >
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">
+                                                Tanggal
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">
+                                                Nama Item
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">
+                                                Eksekutor
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">
+                                                Jumlah
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">
+                                                Tipe
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">
+                                                Keterangan
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {/* Perhatikan: history.data, bukan history saja */}
+                                        {history.data &&
+                                        history.data.length > 0 ? (
+                                            history.data.map((h) => (
+                                                <tr
+                                                    key={h.id}
+                                                    className="hover:bg-gray-50"
+                                                >
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                                        {new Date(
+                                                            h.created_at
+                                                        ).toLocaleDateString(
+                                                            "id-ID"
+                                                        )}
+                                                        <div className="text-xs text-gray-400">
+                                                            {new Date(
+                                                                h.created_at
+                                                            ).toLocaleTimeString(
+                                                                "id-ID",
+                                                                {
+                                                                    hour: "2-digit",
+                                                                    minute: "2-digit",
+                                                                }
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        {h.item?.nama_barang ||
+                                                            "-"}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                                        {h.user?.name || "-"}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-700">
+                                                        {Math.abs(h.jumlah)}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <span
+                                                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                                h.tipe ===
+                                                                "masuk"
+                                                                    ? "bg-green-100 text-green-800"
+                                                                    : "bg-red-100 text-red-800"
+                                                            }`}
+                                                        >
+                                                            {h.tipe
+                                                                .charAt(0)
+                                                                .toUpperCase() +
+                                                                h.tipe.slice(1)}
+                                                        </span>
+                                                    </td>
+                                                    <td className="px-6 py-4 text-sm text-gray-500 truncate max-w-xs">
+                                                        {h.keterangan}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td
+                                                    colSpan="6"
+                                                    className="px-6 py-8 text-center text-gray-500 italic"
+                                                >
+                                                    Belum ada aktivitas mutasi
+                                                    barang bulan ini.
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Tombol Pagination */}
+                            <div className="mt-4 flex flex-wrap gap-1 justify-center sm:justify-end">
+                                {history.links.map((link, index) => (
+                                    <Link
+                                        key={index}
+                                        href={link.url || "#"}
+                                        className={`px-3 py-1 text-sm border rounded ${
+                                            link.active
+                                                ? "bg-blue-600 text-white border-blue-600"
+                                                : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
+                                        } ${
+                                            !link.url
+                                                ? "opacity-50 cursor-not-allowed"
+                                                : ""
+                                        }`}
+                                        dangerouslySetInnerHTML={{
+                                            __html: link.label,
+                                        }}
+                                        preserveState
+                                        preserveScroll
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Laporan Bulanan */}
                     <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <section>

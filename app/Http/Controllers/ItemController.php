@@ -104,8 +104,12 @@ class ItemController extends Controller
         return redirect()->route('items.index');
     }
 
-    public function showLaporanStokPage()
+    public function showLaporanStokPage(Request $request)
     {   
+        $request->validate([
+            'per_page' => 'nullable|integer|in:5,10,20,50'
+        ]);
+
         $now = Carbon::now();
         $bulanIni = $now->month;
         $tahunIni = $now->year;
@@ -126,14 +130,25 @@ class ItemController extends Controller
                         ->selectRaw('SUM(stok * harga) as total')
                         ->value('total');
 
+        $perPage = $request->input('per_page', 10);
+        
+        $history = StokMutasi::with(['item', 'user'])
+                    ->whereMonth('created_at', $bulanIni)
+                    ->whereYear('created_at', $tahunIni)
+                    ->latest()
+                    ->paginate($perPage)
+                    ->withQueryString();
+
         return Inertia::render('Items/LaporanPage', [
             'summary' =>
             [
                 'masuk' => $barangMasuk,
                 'keluar' => $barangKeluar,
                 'sisa_stok' => $sisaStok,
-                'total_aset' => $totalAset, 
-            ]
+                'total_aset' => $totalAset ?? 0, 
+            ],
+            'history' => $history,
+            'filters' => $request->only(['per_page']),
         ]);
     }
 
