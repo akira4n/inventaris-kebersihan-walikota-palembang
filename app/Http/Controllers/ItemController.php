@@ -105,8 +105,36 @@ class ItemController extends Controller
     }
 
     public function showLaporanStokPage()
-    {
-        return Inertia::render('Items/LaporanPage');
+    {   
+        $now = Carbon::now();
+        $bulanIni = $now->month;
+        $tahunIni = $now->year;
+
+        $barangMasuk = StokMutasi::where('tipe', 'masuk')
+                        ->whereMonth('created_at', $bulanIni)
+                        ->whereYear('created_at', $tahunIni)
+                        ->sum('jumlah');
+
+        $barangKeluar = StokMutasi::where('tipe', 'keluar')
+                        ->whereMonth('created_at', $bulanIni)
+                        ->whereYear('created_at', $tahunIni)
+                        ->sum('jumlah');
+
+        $sisaStok = Item::sum('stok');
+
+        $totalAset = DB::table('items')
+                        ->selectRaw('SUM(stok * harga) as total')
+                        ->value('total');
+
+        return Inertia::render('Items/LaporanPage', [
+            'summary' =>
+            [
+                'masuk' => $barangMasuk,
+                'keluar' => $barangKeluar,
+                'sisa_stok' => $sisaStok,
+                'total_aset' => $totalAset, 
+            ]
+        ]);
     }
 
     /**
