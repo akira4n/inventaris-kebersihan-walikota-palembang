@@ -65,8 +65,15 @@ class PengajuanController extends Controller
                                 ->orderBy('created_at', 'asc')
                                 ->get();
         
+        $riwayat = Pengajuan::where('status', 'Selesai')
+                                ->orWhere('status', 'Disetujui Kabag')
+                                ->with('user', 'item')
+                                ->latest('updated_at')
+                                ->get();
+        
         return Inertia::render('Kabag/Index', [
-            'pengajuans' => $pengajuans
+            'pengajuans' => $pengajuans,
+            'riwayat' => $riwayat,
         ]);
     }
 

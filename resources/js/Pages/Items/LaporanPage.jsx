@@ -152,7 +152,7 @@ export default function LaporanPage({ auth, summary, history, filters }) {
                         <div className="p-6 text-gray-900">
                             <div className="flex justify-between items-center mb-4 border-b pb-2">
                                 <h3 className="text-lg font-bold text-gray-800">
-                                    Aktivitas Keluar/Masuk Barang
+                                    Aktivitas Keluar dan Masuk Barang Bulan {(months[currentMonth - 1].label)}
                                 </h3>
 
                                 {/* Dropdown Filter Jumlah Data */}
