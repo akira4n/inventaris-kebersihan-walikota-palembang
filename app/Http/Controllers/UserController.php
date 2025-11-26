@@ -66,11 +66,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $users = User::findOrFail($id);
+        // $users = User::findOrFail($id);
 
-        return Inertia::render('Users/Edit', [
-            'user' => $users
-        ]);
+        // return Inertia::render('Users/Edit', [
+        //     'user' => $users
+        // ]);
     }
 
     /**

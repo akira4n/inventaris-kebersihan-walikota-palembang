@@ -66,14 +66,14 @@ export default function Dashboard({ auth, stats }) {
             {
                 label: "Barang Masuk",
                 data: stats.charts?.masuk || [],
-                borderColor: "rgb(34, 197, 94)", // Hijau
+                borderColor: "rgb(34, 197, 94)",
                 backgroundColor: "rgba(34, 197, 94, 0.5)",
-                tension: 0.3, // Garis agak melengkung
+                tension: 0.3,
             },
             {
                 label: "Barang Keluar",
                 data: stats.charts?.keluar || [],
-                borderColor: "rgb(239, 68, 68)", // Merah
+                borderColor: "rgb(239, 68, 68)",
                 backgroundColor: "rgba(239, 68, 68, 0.5)",
                 tension: 0.3,
             },
@@ -86,7 +86,7 @@ export default function Dashboard({ auth, stats }) {
             {
                 label: "Total Pengajuan",
                 data: stats.charts?.pengajuan || [],
-                borderColor: "rgb(59, 130, 246)", // Biru
+                borderColor: "rgb(59, 130, 246)",
                 backgroundColor: "rgba(59, 130, 246, 0.5)",
                 tension: 0.3,
             },
@@ -104,7 +104,7 @@ export default function Dashboard({ auth, stats }) {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    stepSize: 1, // Agar sumbu Y bilangan bulat
+                    stepSize: 1,
                 },
             },
         },
@@ -127,7 +127,7 @@ export default function Dashboard({ auth, stats }) {
                 {/* staff */}
                 {auth.user.role === "staff" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-blue-500 hover:shadow-md transition">
+                        <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-blue-500 hover:shadow-md transition">
                             <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">
                                 Total Pengajuan Saya
                             </div>
@@ -139,7 +139,7 @@ export default function Dashboard({ auth, stats }) {
                             </div>
                         </div>
 
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-indigo-500 hover:shadow-md transition">
+                        <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-indigo-500 hover:shadow-md transition">
                             <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">
                                 Lokasi Ruangan
                             </div>
@@ -151,7 +151,7 @@ export default function Dashboard({ auth, stats }) {
                             </div>
                         </div>
 
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-yellow-500 hover:shadow-md transition">
+                        <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-yellow-500 hover:shadow-md transition">
                             <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">
                                 Pengajuan Proses
                             </div>
@@ -163,7 +163,7 @@ export default function Dashboard({ auth, stats }) {
                             </div>
                         </div>
 
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-green-500 hover:shadow-md transition">
+                        <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-l-4 border-green-500 hover:shadow-md transition">
                             <div className="text-gray-500 text-sm font-medium uppercase tracking-wider">
                                 Pengajuan Selesai
                             </div>
@@ -181,7 +181,7 @@ export default function Dashboard({ auth, stats }) {
                 {auth.user.role !== "staff" && (
                     <div className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-t-4 border-blue-500">
+                            <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-t-4 border-blue-500">
                                 <div className="text-gray-500 text-sm font-bold uppercase">
                                     Total Semua Pengajuan
                                 </div>
@@ -189,7 +189,7 @@ export default function Dashboard({ auth, stats }) {
                                     {stats.total_pengajuan}
                                 </div>
                             </div>
-                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-t-4 border-yellow-500">
+                            <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-t-4 border-yellow-500">
                                 <div className="text-gray-500 text-sm font-bold uppercase">
                                     Pengajuan Belum Selesai
                                 </div>
@@ -200,7 +200,7 @@ export default function Dashboard({ auth, stats }) {
                                     Pending / Disetujui Kabag
                                 </div>
                             </div>
-                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-t-4 border-green-500">
+                            <div className="bg-white overflow-hidden shadow-sm rounded-lg p-6 border-t-4 border-green-500">
                                 <div className="text-gray-500 text-sm font-bold uppercase">
                                     Pengajuan Selesai
                                 </div>
