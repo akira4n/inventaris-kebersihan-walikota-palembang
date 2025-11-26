@@ -40,6 +40,7 @@ class UserController extends Controller
             'nip' => 'nullable|string|max:255|unique:users',
             'ruangan' => 'required|string|max:255',
             'role' => 'required|string|in:admin,kabag,staff',
+            'email' => 'required|email:rfc',
             'password' => ['required', 'confirmed', Rules\Password::min(8)],
         ]);
 

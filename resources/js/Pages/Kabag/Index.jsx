@@ -148,6 +148,7 @@ export default function Index({ auth, pengajuans, riwayat }) {
                     </div>
                 </div>
             </div>
+
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 text-gray-900">
@@ -155,21 +156,14 @@ export default function Index({ auth, pengajuans, riwayat }) {
                             Riwayat Persetujuan Pengajuan
                         </h3>
 
-                        {/* tabel riwayat */}
                         <table className="min-w-full divide-y divide-gray-200 mt-4">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                        ID Pengajuan
-                                    </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                         Tgl. Ajuan
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                         Pengaju
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                        Ruangan
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                         Barang
@@ -178,19 +172,14 @@ export default function Index({ auth, pengajuans, riwayat }) {
                                         Jumlah
                                     </th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                        Berkas
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                         Status
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {riwayat.map((r) => (
+                                {/* PERUBAHAN: Gunakan riwayat.data.map */}
+                                {riwayat.data.map((r) => (
                                     <tr key={r.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            {r.id}
-                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {new Date(
                                                 r.created_at
@@ -200,42 +189,61 @@ export default function Index({ auth, pengajuans, riwayat }) {
                                             {r.user.name}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {r.user.ruangan}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
                                             {r.item.nama_barang}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {r.jumlah}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <button
-                                                onClick={() =>
-                                                    lihatBerkas(r.berkas_path)
-                                                }
-                                                className="text-blue-600 hover:underline"
+                                            <span
+                                                className={`px-2 py-1 rounded text-xs text-white ${
+                                                    r.status === "Selesai"
+                                                        ? "bg-green-500"
+                                                        : r.status === "Ditolak"
+                                                        ? "bg-red-500"
+                                                        : "bg-yellow-500"
+                                                }`}
                                             >
-                                                Lihat Berkas
-                                            </button>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                            {r.status}
+                                                {r.status}
+                                            </span>
                                         </td>
                                     </tr>
                                 ))}
-                                {riwayat.length === 0 && (
+                                {riwayat.data.length === 0 && (
                                     <tr>
                                         <td
-                                            colSpan="6"
+                                            colSpan="5"
                                             className="px-6 py-4 text-center text-gray-500"
                                         >
-                                            Tidak ada pengajuan yang menunggu
-                                            persetujuan.
+                                            Belum ada riwayat.
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
+
+                        {/* TOMBOL PAGINATION */}
+                        <div className="mt-4 flex justify-center">
+                            {riwayat.links.map((link, index) => (
+                                <Link
+                                    key={index}
+                                    href={link.url || "#"}
+                                    className={`px-3 py-1 mx-1 text-sm border rounded ${
+                                        link.active
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-white text-gray-700"
+                                    } ${
+                                        !link.url
+                                            ? "opacity-50 cursor-not-allowed"
+                                            : ""
+                                    }`}
+                                    dangerouslySetInnerHTML={{
+                                        __html: link.label,
+                                    }}
+                                    preserveScroll // Agar saat klik tidak lompat ke atas halaman
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

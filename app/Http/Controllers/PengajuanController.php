@@ -67,9 +67,10 @@ class PengajuanController extends Controller
         
         $riwayat = Pengajuan::where('status', 'Selesai')
                                 ->orWhere('status', 'Disetujui Kabag')
+                                ->orWhere('status', 'Ditolak')
                                 ->with('user', 'item')
                                 ->latest('updated_at')
-                                ->get();
+                                ->paginate(10);
         
         return Inertia::render('Kabag/Index', [
             'pengajuans' => $pengajuans,
@@ -106,7 +107,7 @@ class PengajuanController extends Controller
         $riwayat = Pengajuan::where('status', 'Selesai')
                                 ->with('user', 'item')
                                 ->latest('updated_at')
-                                ->get();
+                                ->paginate(10);
 
         return Inertia::render('Admin/Index', [
             'pengajuans' => $pengajuans,

@@ -4,14 +4,13 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-// 'auth' dikirim otomatis
 export default function Create({ auth }) {
-    // Setup 'useForm' dengan field yang dibutuhkan
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         nip: "",
         ruangan: "",
         role: "staff", // Nilai default untuk role
+        email: "",
         password: "",
         password_confirmation: "", // Wajib ada karena validasi 'confirmed'
     });
@@ -21,7 +20,7 @@ export default function Create({ auth }) {
         e.preventDefault();
         // Kirim data ke route 'users.store'
         post(route("users.store"), {
-            onSuccess: () => reset("password", "password_confirmation"), // Kosongkan field password jika sukses
+            onSuccess: () => reset("password", "password_confirmation"),
         });
     };
 
@@ -133,6 +132,26 @@ export default function Create({ auth }) {
                                     {errors.role && (
                                         <p className="text-red-500 text-xs mt-1">
                                             {errors.role}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Password */}
+                                <div>
+                                    <InputLabel htmlFor="email" value="Email" />
+                                    <TextInput
+                                        id="email"
+                                        type="email"
+                                        className="mt-1 block w-full"
+                                        value={data.email}
+                                        onChange={(e) =>
+                                            setData("email", e.target.value)
+                                        }
+                                        required
+                                    />
+                                    {errors.email && (
+                                        <p className="text-red-500 text-xs mt-1">
+                                            {errors.email}
                                         </p>
                                     )}
                                 </div>
