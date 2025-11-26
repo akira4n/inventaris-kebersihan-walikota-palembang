@@ -1,15 +1,33 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 
 export default function Index({ auth, pengajuans }) {
-    // Fungsi untuk menghitung lama ajuan (misal: "2 hari lalu")
+    // Helper Hitung Lama Ajuan
     const hitungLamaAjuan = (tanggal) => {
         const now = new Date();
         const then = new Date(tanggal);
         const diffMs = now.getTime() - then.getTime();
         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
         if (diffDays === 0) return "Hari ini";
+        if (diffDays === 1) return "Kemarin";
         return `${diffDays} hari lalu`;
+    };
+
+    // Helper Warna Badge Status
+    const getStatusBadge = (status) => {
+        switch (status) {
+            case "Selesai":
+                return "bg-green-100 text-green-800 border-green-200";
+            case "Disetujui Kabag":
+                return "bg-blue-100 text-blue-800 border-blue-200";
+            case "Pending":
+                return "bg-yellow-100 text-yellow-800 border-yellow-200";
+            case "Ditolak":
+                return "bg-red-100 text-red-800 border-red-200";
+            default:
+                return "bg-gray-100 text-gray-800 border-gray-200";
+        }
     };
 
     return (
@@ -17,76 +35,128 @@ export default function Index({ auth, pengajuans }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Riwayat Pengajuan Barang
+                    Riwayat Pengajuan
                 </h2>
             }
         >
             <Head title="Riwayat Pengajuan" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <h3 className="text-lg font-medium mb-4">
+            <div className="py-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    {/* Header Section */}
+                    <div className="flex items-center gap-4 mb-6">
+                        <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
+                            <span className="material-icons-round text-2xl">
+                                history_edu
+                            </span>
+                        </div>
+                        <div>
+                            <h3 className="text-lg font-bold text-gray-800">
                                 Daftar Pengajuan Saya
                             </h3>
+                            <p className="text-sm text-gray-500">
+                                Pantau status permintaan barang Anda di sini.
+                            </p>
+                        </div>
+                    </div>
 
-                            {/* TABEL RIWAYAT */}
-                            <table className="min-w-full divide-y divide-gray-200 mt-4">
-                                <thead className="bg-gray-50">
+                    {/* Tabel Card */}
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-100">
+                                <thead className="bg-gray-50/50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Nomor Ajuan
+                                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                            ID / Tanggal
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Tgl. Ajuan
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                                            Lama Ajuan
-                                        </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
                                             Barang
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
                                             Jumlah
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                            Waktu Berlalu
+                                        </th>
+                                        <th className="px-6 py-4 text-right text-xs font-bold text-gray-400 uppercase tracking-wider">
                                             Status
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-white divide-y divide-gray-100">
                                     {pengajuans.map((p) => (
-                                        <tr key={p.id}>
+                                        <tr
+                                            key={p.id}
+                                            className="group hover:bg-blue-50/30 transition-colors duration-200"
+                                        >
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                {p.id}
+                                                <div className="text-sm font-bold text-gray-800">
+                                                    #{p.id}
+                                                </div>
+                                                <div className="text-xs text-gray-400 font-mono mt-0.5 flex items-center gap-1">
+                                                    <span className="material-icons-round text-[10px]">
+                                                        event
+                                                    </span>
+                                                    {new Date(
+                                                        p.created_at
+                                                    ).toLocaleDateString(
+                                                        "id-ID",
+                                                        {
+                                                            day: "numeric",
+                                                            month: "short",
+                                                            year: "numeric",
+                                                        }
+                                                    )}
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                {new Date(
-                                                    p.created_at
-                                                ).toLocaleDateString("id-ID")}
+                                                <div className="text-sm font-medium text-gray-900 group-hover:text-blue-800 transition-colors">
+                                                    {p.item.nama_barang}
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                {p.item.nama_barang}
+                                                <span className="text-sm font-bold text-gray-700 bg-gray-100 px-2 py-1 rounded-lg">
+                                                    {p.jumlah} Unit
+                                                </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {p.jumlah}
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <div className="flex items-center gap-1">
+                                                    <span className="material-icons-round text-sm text-gray-400">
+                                                        schedule
+                                                    </span>
+                                                    {hitungLamaAjuan(
+                                                        p.created_at
+                                                    )}
+                                                </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {hitungLamaAjuan(p.created_at)}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {p.status}
+                                            <td className="px-6 py-4 whitespace-nowrap text-right">
+                                                <span
+                                                    className={`px-3 py-1 inline-flex text-xs font-bold uppercase tracking-wide rounded-lg border ${getStatusBadge(
+                                                        p.status
+                                                    )}`}
+                                                >
+                                                    {p.status}
+                                                </span>
                                             </td>
                                         </tr>
                                     ))}
+
+                                    {/* Empty State */}
                                     {pengajuans.length === 0 && (
                                         <tr>
                                             <td
                                                 colSpan="5"
-                                                className="px-6 py-4 text-center text-gray-500"
+                                                className="px-6 py-12 text-center text-gray-400 bg-gray-50/30"
                                             >
-                                                Belum ada riwayat pengajuan.
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <span className="material-icons-round text-4xl mb-2 text-gray-300">
+                                                        inbox
+                                                    </span>
+                                                    <p className="text-sm">
+                                                        Belum ada riwayat
+                                                        pengajuan.
+                                                    </p>
+                                                </div>
                                             </td>
                                         </tr>
                                     )}
