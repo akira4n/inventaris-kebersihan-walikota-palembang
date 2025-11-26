@@ -166,11 +166,8 @@ export default function Create({ auth }) {
                                                 Admin IT
                                             </option>
                                         </select>
-                                        <span className="material-icons-round absolute left-3 top-2 text-gray-400 text-lg">
+                                        <span className="material-icons-round absolute left-3 top-1 text-gray-400 text-lg">
                                             admin_panel_settings
-                                        </span>
-                                        <span className="material-icons-round absolute right-3 top-2 text-gray-400 text-lg pointer-events-none">
-                                            expand_more
                                         </span>
                                     </div>
                                     <InputError

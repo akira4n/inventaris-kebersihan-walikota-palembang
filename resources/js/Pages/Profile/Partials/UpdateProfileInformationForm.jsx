@@ -1,14 +1,14 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Transition } from '@headlessui/react';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import { Transition } from "@headlessui/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
     status,
-    className = '',
+    className = "",
 }) {
     const user = usePage().props.auth.user;
 
@@ -16,100 +16,119 @@ export default function UpdateProfileInformation({
         useForm({
             name: user.name,
             email: user.email,
-            nip: user.nip,
+            nip: user.nip || "",
         });
 
     const submit = (e) => {
         e.preventDefault();
-
-        patch(route('profile.update'));
+        patch(route("profile.update"));
     };
 
     return (
         <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
-
-            <form onSubmit={submit} className="mt-6 space-y-6">
+            <form onSubmit={submit} className="space-y-6">
+                {/* Nama */}
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                        isFocused
-                        autoComplete="name"
+                    <InputLabel
+                        htmlFor="name"
+                        value="Nama Lengkap"
+                        className="mb-1 text-gray-600"
                     />
-
-                    <InputError className="mt-2" message={errors.name} />
+                    <div className="relative">
+                        <TextInput
+                            id="name"
+                            className="pl-10 w-full border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all"
+                            value={data.name}
+                            onChange={(e) => setData("name", e.target.value)}
+                            required
+                            isFocused
+                            autoComplete="name"
+                        />
+                        <span className="material-icons-round absolute left-3 top-2 text-gray-400 text-lg">
+                            face
+                        </span>
+                    </div>
+                    <InputError className="mt-1" message={errors.name} />
                 </div>
 
+                {/* NIP */}
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        className="mt-1 block w-full"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                        autoComplete="username"
+                    <InputLabel
+                        htmlFor="nip"
+                        value="NIP (Nomor Induk Pegawai)"
+                        className="mb-1 text-gray-600"
                     />
-
-                    <InputError className="mt-2" message={errors.email} />
-                </div>
-                
-                <div>
-                    <InputLabel htmlFor="nip" value="NIP" />
-
-                    <TextInput
-                        id="nip"
-                        className="mt-1 block w-full"
-                        value={data.nip}
-                        onChange={(e) => setData('nip', e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
-
-                    <InputError className="mt-2" message={errors.nip} />
+                    <div className="relative">
+                        <TextInput
+                            id="nip"
+                            className="pl-10 w-full border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all"
+                            value={data.nip}
+                            onChange={(e) => setData("nip", e.target.value)}
+                            required
+                            autoComplete="username"
+                        />
+                        <span className="material-icons-round absolute left-3 top-2 text-gray-400 text-lg">
+                            numbers
+                        </span>
+                    </div>
+                    <InputError className="mt-1" message={errors.nip} />
                 </div>
 
+                {/* Email */}
+                <div>
+                    <InputLabel
+                        htmlFor="email"
+                        value="Email Login"
+                        className="mb-1 text-gray-600"
+                    />
+                    <div className="relative">
+                        <TextInput
+                            id="email"
+                            type="email"
+                            className="pl-10 w-full border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all"
+                            value={data.email}
+                            onChange={(e) => setData("email", e.target.value)}
+                            required
+                            autoComplete="username"
+                        />
+                        <span className="material-icons-round absolute left-3 top-2 text-gray-400 text-lg">
+                            email
+                        </span>
+                    </div>
+                    <InputError className="mt-1" message={errors.email} />
+                </div>
+
+                {/* Verifikasi Email (Jarang dipakai di local, tapi tetep ada) */}
                 {mustVerifyEmail && user.email_verified_at === null && (
-                    <div>
-                        <p className="mt-2 text-sm text-gray-800">
-                            Your email address is unverified.
+                    <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-100">
+                        <p className="text-sm text-yellow-800">
+                            Email Anda belum diverifikasi.
                             <Link
-                                href={route('verification.send')}
+                                href={route("verification.send")}
                                 method="post"
                                 as="button"
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                className="ml-1 underline font-bold hover:text-yellow-900"
                             >
-                                Click here to re-send the verification email.
+                                Kirim ulang link verifikasi.
                             </Link>
                         </p>
-
-                        {status === 'verification-link-sent' && (
-                            <div className="mt-2 text-sm font-medium text-green-600">
-                                A new verification link has been sent to your
-                                email address.
+                        {status === "verification-link-sent" && (
+                            <div className="mt-2 font-medium text-sm text-green-600">
+                                Link verifikasi baru telah dikirim ke email
+                                Anda.
                             </div>
                         )}
                     </div>
                 )}
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                {/* Tombol Simpan */}
+                <div className="flex items-center gap-4 pt-2">
+                    <PrimaryButton
+                        disabled={processing}
+                        className="px-6 bg-blue-800 hover:bg-blue-900 rounded-xl shadow-lg shadow-blue-800/20"
+                    >
+                        Simpan
+                    </PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -118,8 +137,11 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">
-                            Saved.
+                        <p className="text-sm text-green-600 flex items-center gap-1">
+                            <span className="material-icons-round text-sm">
+                                check_circle
+                            </span>
+                            Berhasil disimpan.
                         </p>
                     </Transition>
                 </div>

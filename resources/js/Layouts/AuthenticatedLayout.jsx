@@ -172,9 +172,9 @@ export default function AuthenticatedLayout({ header, children }) {
             </aside>
 
             {/* --- MAIN CONTENT --- */}
-            <div className="flex-1 flex flex-col overflow-hidden relative">
+            <div className="flex-1 flex flex-col overflow-hidden relative ">
                 {/* header */}
-                <header className="flex items-center justify-between px-8 py-5 absolute w-full bg-clip-padding backdrop-filter backdrop-blur-md border-b border-gray-200">
+                <header className="z-20 flex items-center justify-between px-8 py-5 absolute w-full bg-clip-padding backdrop-filter backdrop-blur-md border-b border-gray-200">
                     <button
                         onClick={() => setShowingMobileMenu(true)}
                         className="text-gray-500 focus:outline-none lg:hidden"
@@ -234,7 +234,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 </header>
 
                 {/* isi*/}
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-blue-50 p-4 lg:p-8">
+                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-blue-50 p-4 lg:p-8 z-0">
                     {/* mobile */}
                     <div className="lg:hidden mb-6 mt-24 text-xl font-bold text-gray-800">
                         {header}
