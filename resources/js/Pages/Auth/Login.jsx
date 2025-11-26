@@ -33,10 +33,10 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div className="mb-8 text-center">
-                    <h1 className="text-4xl font-semibold mb-1">
-                        Selamat Datang
-                    </h1>
-                    <p>Silahkan Log in untuk masuk ke sistem!</p>
+                    <h1 className="text-4xl font-bold mb-1">Selamat Datang</h1>
+                    <p className="text-gray-600">
+                        Silahkan Log in untuk masuk ke sistem!
+                    </p>
                 </div>
 
                 <div>

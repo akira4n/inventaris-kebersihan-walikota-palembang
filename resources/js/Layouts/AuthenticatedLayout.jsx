@@ -138,7 +138,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     active={route().current("laporan.*")}
                                     icon="insights"
                                 >
-                                    Laporan & Analisis
+                                    Laporan & Aktivitas
                                 </SidebarLink>
                             </>
                         )}
