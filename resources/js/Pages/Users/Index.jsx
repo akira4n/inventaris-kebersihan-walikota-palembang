@@ -50,14 +50,7 @@ export default function Index({ auth, users }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Manajemen Akun
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} header={"Manajemen Akun"}>
             <Head title="Manajemen Akun" />
 
             <div className="py-12">

@@ -17,14 +17,7 @@ export default function Edit({ auth, item }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Edit Barang
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} header={"Edit Barang"}>
             <Head title={`Edit Barang: ${item.nama_barang}`} />
 
             <div className="py-12">

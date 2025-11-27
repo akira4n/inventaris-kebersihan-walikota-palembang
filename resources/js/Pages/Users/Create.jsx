@@ -24,14 +24,7 @@ export default function Create({ auth }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Buat Akun Baru
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} header={"Buat Akun Baru"}>
             <Head title="Buat Akun Baru" />
 
             <div className="py-12">

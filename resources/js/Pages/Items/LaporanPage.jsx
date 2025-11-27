@@ -84,11 +84,7 @@ export default function LaporanPage({ auth, summary, history, filters }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Laporan & Analisis Stok
-                </h2>
-            }
+            header={"Laporan & Analisis Stok"}
         >
             <Head title="Laporan Stok" />
 

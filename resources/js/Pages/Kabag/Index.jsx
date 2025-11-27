@@ -82,14 +82,7 @@ export default function Index({ auth, pengajuans, riwayat }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Persetujuan Pengajuan
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} header={"Persetujuan Pengajuan"}>
             <Head title="Persetujuan Kabag" />
 
             <div className="py-8 px-4 sm:px-6 lg:px-8 space-y-8">

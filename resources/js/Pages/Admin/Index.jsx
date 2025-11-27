@@ -55,14 +55,7 @@ export default function Index({ auth, pengajuans, riwayat }) {
     };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Proses Pengajuan Admin
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} header={"Proses Pengajuan Admin"}>
             <Head title="Proses Pengajuan" />
 
             <div className="py-12">
