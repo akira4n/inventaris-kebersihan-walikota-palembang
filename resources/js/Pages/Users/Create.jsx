@@ -230,7 +230,7 @@ export default function Create({ auth }) {
                                     <div>
                                         <InputLabel
                                             htmlFor="password_confirmation"
-                                            value="Konfirmasi"
+                                            value="Konfirmasi Password"
                                             className="mb-1 text-gray-600"
                                         />
                                         <div className="relative">

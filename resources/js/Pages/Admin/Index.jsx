@@ -112,7 +112,7 @@ export default function Index({ auth, pengajuans, riwayat }) {
                                                 Barang
                                             </th>
                                             <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
-                                                Jml
+                                                Jumlah
                                             </th>
                                             <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
                                                 Berkas

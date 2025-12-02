@@ -35,7 +35,6 @@ export function TambahStokForm({ items }) {
             </header>
 
             <form onSubmit={submit} className="space-y-5 flex-1">
-                {/* ... Input Dropdown, Jumlah, Keterangan (TETAP SAMA) ... */}
                 <div>
                     <InputLabel
                         htmlFor="item_id"
@@ -69,7 +68,7 @@ export function TambahStokForm({ items }) {
                     <div>
                         <InputLabel
                             htmlFor="jumlah"
-                            value="Jumlah"
+                            value="Jumlah Masuk"
                             className="mb-1 text-gray-600"
                         />
                         <div className="relative">
@@ -119,7 +118,6 @@ export function TambahStokForm({ items }) {
                     </div>
                 </div>
 
-                {/* --- UPDATE BAGIAN TOMBOL --- */}
                 <div className="pt-4">
                     <PrimaryButton
                         disabled={processing}
@@ -128,7 +126,7 @@ export function TambahStokForm({ items }) {
                         <span className="material-icons-round text-sm">
                             check_circle
                         </span>
-                        Simpan Stok
+                        Catat Penambahan Stok
                     </PrimaryButton>
                 </div>
             </form>

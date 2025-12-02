@@ -78,34 +78,34 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::findOrFail($id);
+        // $user = User::findOrFail($id);
 
-        // validasi
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'nip' => [
-                'nullable', 
-                'string', 
-                'max:255', 
-                Rule::unique('users')->ignore($user->id)
-            ],
-            'ruangan' => 'required|string|max:255',
-            'role' => 'required|string|in:admin,kabag,staff',
-            // kalo pw kosong (pake yg lama)
-            'password' => ['nullable', 'confirmed', Rules\Password::min(8)],
-        ]);
+        // // validasi
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'nip' => [
+        //         'nullable', 
+        //         'string', 
+        //         'max:255', 
+        //         Rule::unique('users')->ignore($user->id)
+        //     ],
+        //     'ruangan' => 'required|string|max:255',
+        //     'role' => 'required|string|in:admin,kabag,staff',
+        //     // kalo pw kosong (pake yg lama)
+        //     'password' => ['nullable', 'confirmed', Rules\Password::min(8)],
+        // ]);
 
-        // validasi password
-        if ($request->filled('password')) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-        } else {
-            unset($validatedData['password']);
-        }
+        // // validasi password
+        // if ($request->filled('password')) {
+        //     $validatedData['password'] = Hash::make($validatedData['password']);
+        // } else {
+        //     unset($validatedData['password']);
+        // }
 
-        // update data user
-        $user->update($validatedData);
+        // // update data user
+        // $user->update($validatedData);
 
-        return redirect()->route('users.index');
+        // return redirect()->route('users.index');
     }
 
     /**
