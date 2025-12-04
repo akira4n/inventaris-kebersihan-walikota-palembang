@@ -305,7 +305,7 @@ export default function Dashboard({ auth, stats }) {
                                     <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-gray-200 shadow-sm">
                                         <label
                                             htmlFor="year"
-                                            className="text-sm font-medium text-gray-500 uppercase text-xs"
+                                            className="font-medium text-gray-500 uppercase text-xs"
                                         >
                                             Tahun:
                                         </label>

@@ -165,7 +165,8 @@ export default function Create({ auth, items }) {
                                         />
                                     </div>
                                     <p className="mt-1 text-xs text-gray-400">
-                                        Format: JPG, PNG, PDF (Max 2MB)
+                                        Format: JPG, JPEG, PNG, PDF, DOC, DOCX
+                                        (Max 2MB)
                                     </p>
                                     <InputError
                                         message={errors.berkas}

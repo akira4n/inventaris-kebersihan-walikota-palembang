@@ -155,9 +155,7 @@ export default function Create({ auth }) {
                                             <option value="kabag">
                                                 Kepala Bagian (Kabag)
                                             </option>
-                                            <option value="admin">
-                                                Admin IT
-                                            </option>
+                                            <option value="admin">Admin</option>
                                         </select>
                                         <span className="material-icons-round absolute left-3 top-1 text-gray-400 text-lg">
                                             admin_panel_settings
