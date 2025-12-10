@@ -21,7 +21,6 @@ export default function Edit({ auth, item }) {
             <Head title={`Edit Barang: ${item.nama_barang}`} />
 
             <div className="py-12">
-                {/* Gunakan max-w-2xl agar form tidak terlalu lebar di layar besar (lebih fokus) */}
                 <div className="max-w-2xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden">
                         {/* Header Section dalam Card */}

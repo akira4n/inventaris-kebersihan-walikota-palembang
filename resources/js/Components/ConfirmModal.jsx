@@ -11,12 +11,11 @@ export default function ConfirmModal({
     content = "Apakah Anda yakin?",
     confirmText = "Ya, Lanjutkan",
     processing = false,
-    danger = true, // <--- Default True (Merah)
+    danger = true,
 }) {
     return (
         <Modal show={show} onClose={onClose} maxWidth="md">
             <div className="p-6">
-                {/* Ikon Dinamis (Merah/Biru) */}
                 <div
                     className={`flex items-center justify-center w-12 h-12 mx-auto rounded-full mb-4 ${
                         danger ? "bg-red-100" : "bg-blue-100"

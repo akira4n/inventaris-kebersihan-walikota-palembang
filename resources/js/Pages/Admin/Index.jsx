@@ -18,25 +18,23 @@ export default function Index({ auth, pengajuans, riwayat }) {
         }
     };
 
-    // 1. Buka Modal
     const confirmProcess = (pengajuan) => {
         setPengajuanToProcess(pengajuan);
         setConfirmingProcess(true);
     };
 
-    // 2. Tutup Modal
     const closeModal = () => {
         setConfirmingProcess(false);
         setPengajuanToProcess(null);
     };
 
-    // 3. Eksekusi Proses (Panggil Backend)
+    // proses handler
     const handleProcess = () => {
         if (!pengajuanToProcess) return;
 
         setIsProcessing(true);
 
-        // Gunakan router.patch sesuai route 'admin.proses'
+        // route ke admin.proses
         router.patch(
             route("admin.proses", pengajuanToProcess.id),
             {},
@@ -184,18 +182,31 @@ export default function Index({ auth, pengajuans, riwayat }) {
                                                     </button>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    {/* GANTI LINK DENGAN BUTTON TRIGGER MODAL */}
-                                                    <button
-                                                        onClick={() =>
-                                                            confirmProcess(p)
-                                                        }
-                                                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg shadow hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 gap-2"
-                                                    >
-                                                        <span className="material-icons-round text-sm">
-                                                            check_circle
-                                                        </span>
-                                                        Proses Barang
-                                                    </button>
+                                                    {p.item.stok >= p.jumlah ? (
+                                                        <button
+                                                            onClick={() =>
+                                                                confirmProcess(
+                                                                    p
+                                                                )
+                                                            }
+                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-lg shadow hover:bg-blue-700 transition-all transform hover:scale-105 active:scale-95 gap-2"
+                                                        >
+                                                            <span className="material-icons-round text-sm">
+                                                                check_circle
+                                                            </span>
+                                                            Proses Barang
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            disabled={true}
+                                                            className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-xs font-bold rounded-lg shadow gap-2 opacity-60"
+                                                        >
+                                                            <span className="material-icons-round text-sm">
+                                                                error
+                                                            </span>
+                                                            Stok Tidak Cukup
+                                                        </button>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))}

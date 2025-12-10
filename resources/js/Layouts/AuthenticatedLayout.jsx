@@ -53,7 +53,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     <Link href="/" className="flex items-center gap-2">
                         <ApplicationLogo className="block h-8 w-auto fill-current text-blue-800" />
                         <span className="text-md font-bold text-gray-800 tracking-tight text-center">
-                            Sistem Pengadaan dan Distribusi Alat Keebrsihan
+                            Sistem Pengadaan dan Distribusi Alat Kebersihan
                             Walikota Palembang
                         </span>
                     </Link>

@@ -80,7 +80,7 @@ export default function Create({ auth }) {
                                     <div>
                                         <InputLabel
                                             htmlFor="nip"
-                                            value="NIP"
+                                            value="NIP (Opsional)"
                                             className="mb-1 text-gray-600"
                                         />
                                         <div className="relative">

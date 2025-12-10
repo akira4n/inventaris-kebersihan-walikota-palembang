@@ -13,7 +13,7 @@ export default function Create({ auth, items }) {
         ruangan: auth.user.ruangan,
     });
 
-    // Fungsi untuk menangani submit form
+    // submit handler
     const submit = (e) => {
         e.preventDefault();
         post(route("pengajuan.store"));
@@ -88,7 +88,6 @@ export default function Create({ auth, items }) {
                                     />
                                 </div>
 
-                                {/* Grid: Jumlah & Ruangan */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {/* Jumlah Barang */}
                                     <div>

@@ -1,4 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { useRef } from "react";
 import { Head, router } from "@inertiajs/react";
 import {
     Chart as ChartJS,
@@ -29,6 +30,10 @@ export default function Dashboard({ auth, stats }) {
         month: "long",
         day: "numeric",
     });
+
+    const mutasiChartRef = useRef(null);
+
+    const currentMonthIndex = new Date().getMonth();
 
     const currentYear = new Date().getFullYear();
     const startYear = 2020;
@@ -110,20 +115,46 @@ export default function Dashboard({ auth, stats }) {
         },
     };
 
+    const chartOptionsWithClick = {
+        ...chartOptions,
+        onClick: (evt) => {
+            const chart = mutasiChartRef.current;
+            if (!chart) return;
+
+            const points = chart.getElementsAtEventForMode(
+                evt.native,
+                "nearest",
+                { intersect: true },
+                true
+            );
+
+            if (points.length > 0) {
+                const index = points[0].index;
+
+                if (index === currentMonthIndex) {
+                    router.get("/laporan/stok");
+                }
+            }
+        },
+        onHover: (evt, elements) => {
+            if (evt.native) {
+                evt.native.target.style.cursor = elements.length
+                    ? "pointer"
+                    : "default";
+            }
+        },
+    };
+
     return (
         <AuthenticatedLayout user={auth.user} header={"Dashboard"}>
             <Head title="Dashboard" />
 
-            <div className="py-8 px-4 sm:px-6 lg:px-8">
-                {" "}
-                {/* Reduced top padding for cleaner look */}
+            <div className="md:py-12 py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-8">
                     {" "}
-                    {/* Added margin bottom */}
                     <div>
                         <h2 className="text-2xl font-bold text-gray-800 leading-tight">
                             {" "}
-                            {/* Increased font size */}
                             Halo, Selamat Datang,{" "}
                             <span className="text-blue-600">
                                 {auth.user.name}!
@@ -294,7 +325,6 @@ export default function Dashboard({ auth, stats }) {
                             {/* Filter & Charts Section */}
                             <div className="bg-gray-50 rounded-3xl p-6 border border-gray-200">
                                 {" "}
-                                {/* Added a container for charts */}
                                 <div className="flex justify-between items-center mb-6">
                                     <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                                         <span className="material-icons-round text-blue-600">
@@ -330,9 +360,9 @@ export default function Dashboard({ auth, stats }) {
                                         </h3>
                                         <div className="relative h-72 w-full">
                                             {" "}
-                                            {/* Increased height slightly */}
                                             <Line
-                                                options={chartOptions}
+                                                ref={mutasiChartRef}
+                                                options={chartOptionsWithClick}
                                                 data={dataMutasi}
                                             />
                                         </div>
@@ -344,7 +374,6 @@ export default function Dashboard({ auth, stats }) {
                                         </h3>
                                         <div className="relative h-72 w-full">
                                             {" "}
-                                            {/* Increased height slightly */}
                                             <Line
                                                 options={chartOptions}
                                                 data={dataPengajuan}
