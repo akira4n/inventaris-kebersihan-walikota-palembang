@@ -16,7 +16,7 @@ return new class extends Migration
         $table->foreignId('item_id')->constrained('items');
         $table->foreignId('user_id')->nullable()->constrained('users');
         $table->integer('jumlah'); 
-        $table->string('tipe');
+        $table->string('tipe', 10);
         $table->string('keterangan')->nullable();
         $table->timestamps();
         });
