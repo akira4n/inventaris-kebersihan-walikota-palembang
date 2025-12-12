@@ -49,10 +49,10 @@ export default function AuthenticatedLayout({ header, children }) {
                     showingMobileMenu ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                <div className="flex items-center justify-center h-20 shrink-0 mx-5 my-7">
-                    <Link href="/" className="flex items-center gap-2">
+                <div className="flex items-center justify-center h-20 shrink-0 mx-5 my-7 ">
+                    <Link href="/" className="flex items-center gap-2 ">
                         <ApplicationLogo className="block h-8 w-auto fill-current text-blue-800" />
-                        <span className="text-md font-bold text-gray-800 tracking-tight text-center">
+                        <span className="text-md font-bold text-gray-800 tracking-tight text-center hover:text-blue-600 transition-all duration-150">
                             Sistem Pengadaan dan Distribusi Alat Kebersihan
                             Walikota Palembang
                         </span>
