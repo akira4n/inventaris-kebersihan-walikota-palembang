@@ -32,6 +32,14 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'email.required' => 'NIP/Email tidak boleh kosong.',
+            'password.required' => 'Password tidak boleh kosong',
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -49,7 +57,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Email/NIP atau password salah.',
             ]);
         }
 
