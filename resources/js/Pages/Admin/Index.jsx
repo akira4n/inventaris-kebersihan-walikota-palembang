@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, router } from "@inertiajs/react"; // Tambah router
-import { useState } from "react"; // Tambah useState
-import ConfirmModal from "@/Components/ConfirmModal"; // Import Modal
+import { Head, usePage, router, Link } from "@inertiajs/react";
+import { useState } from "react";
+import ConfirmModal from "@/Components/ConfirmModal";
 
 export default function Index({ auth, pengajuans, riwayat }) {
     const { flash } = usePage().props;
