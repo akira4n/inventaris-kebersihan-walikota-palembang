@@ -17,7 +17,7 @@ class Pengajuan extends Model
 
     public function item(): BelongsTo
     {
-        return $this->belongsTo(Item::class);
+        return $this->belongsTo(Item::class)->withTrashed();
     }    
 
     public function user(): BelongsTo
