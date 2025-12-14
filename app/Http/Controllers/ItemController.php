@@ -196,18 +196,15 @@ class ItemController extends Controller
 
         try {
             DB::transaction(function () use ($data) {
-                // 1. Ambil item-nya
                 $item = Item::findOrFail($data['item_id']);
 
-                // 2. Tambah stok di tabel items (stok utama)
                 $item->stok += $data['jumlah'];
                 $item->save();
 
-                // 3. Catat di "buku besar" (log mutasi)
                 StokMutasi::create([
                     'item_id' => $data['item_id'],
-                    'user_id' => Auth::id(), // Admin yg login
-                    'jumlah' => $data['jumlah'], // Angka positif (+)
+                    'user_id' => Auth::id(),
+                    'jumlah' => $data['jumlah'],
                     'tipe' => 'masuk',
                     'keterangan' => $data['keterangan'],
                 ]);
@@ -221,7 +218,6 @@ class ItemController extends Controller
 
     public function downloadLaporanSemesteran(Request $request)
     {
-        // 1. Validasi input (SAMA)
         $data = $request->validate([
             'semester' => 'required|integer|in:1,2',
             'tahun' => 'required|integer|min:2020|max:2099',
@@ -230,7 +226,6 @@ class ItemController extends Controller
         $semester = $data['semester'];
         $tahun = $data['tahun'];
 
-        // 2. Tentukan rentang tanggal (SAMA)
         if ($semester == 1) {
             $tanggalAwalSemester = Carbon::create($tahun, 1, 1)->startOfMonth();
             $tanggalAkhirSemester = Carbon::create($tahun, 6, 1)->endOfMonth();
@@ -239,16 +234,12 @@ class ItemController extends Controller
             $tanggalAkhirSemester = Carbon::create($tahun, 12, 1)->endOfMonth();
         }
 
-        // 3. Hitung data menggunakan helper function (BARU)
         $hasil = $this->hitungDataLaporan($tanggalAwalSemester, $tanggalAkhirSemester);
 
-        // 4. Buat Judul Periode (BARU)
         $periode = "LAPORAN PERIODE SEMESTER $semester TAHUN $tahun";
 
-        // 5. Buat nama file (SAMA)
         $fileName = "laporan-stok-semester-{$semester}-{$tahun}.xlsx";
 
-        // 6. Download file menggunakan Class Export (BARU)
         return (new StokLaporanExport($hasil['data'], $hasil['totals'], $periode))
             ->download($fileName);
     }
@@ -257,10 +248,8 @@ class ItemController extends Controller
     {
         $items = Item::all();
 
-        // Siapkan array kosong untuk menampung data baris
         $data = [];
 
-        // Siapkan array untuk menampung total di baris paling bawah
         $totals = [
             'stokAwal_Tampilan' => 0,
             'stokAwal_Jumlah' => 0,
@@ -273,7 +262,6 @@ class ItemController extends Controller
         foreach ($items as $item) {
             $harga = $item->harga;
 
-            // ---- Lakukan 4 Query Inti ----
             $stokAwal_BulanLalu = StokMutasi::where('item_id', $item->id)
                 ->where('created_at', '<', $tanggalAwal)
                 ->sum('jumlah');
@@ -292,11 +280,9 @@ class ItemController extends Controller
                 ->where('created_at', '<=', $tanggalAkhir)
                 ->sum('jumlah');
 
-            // ---- Lakukan Kalkulasi Tampilan ----
             $stokAwal_Tampilan = $stokAwal_BulanLalu + $barangMasuk_BulanIni;
-            $pengeluaran_Volume = abs($pengeluaran_BulanIni); // ubah -5 jadi 5
+            $pengeluaran_Volume = abs($pengeluaran_BulanIni);
 
-            // ---- Simpan hasil kalkulasi ke array $data ----
             $data[] = [
                 'nama_barang' => $item->nama_barang,
                 'harga' => $harga,
@@ -305,7 +291,6 @@ class ItemController extends Controller
                 'stokAkhir' => $stokAkhir,
             ];
 
-            // ---- Tambahkan ke Total ----
             $totals['stokAwal_Tampilan'] += $stokAwal_Tampilan;
             $totals['stokAwal_Jumlah'] += $stokAwal_Tampilan * $harga;
             $totals['pengeluaran_Volume'] += $pengeluaran_Volume;
@@ -314,7 +299,6 @@ class ItemController extends Controller
             $totals['stokAkhir_Jumlah'] += $stokAkhir * $harga;
         }
 
-        // Kembalikan kedua array tersebut
         return ['data' => $data, 'totals' => $totals];
     }
 }

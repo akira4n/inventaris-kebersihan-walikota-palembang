@@ -147,8 +147,7 @@ class PengajuanController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('admin.index')->with('error', 'Gagal memproses pengajuan: ' . $e->getMessage());
         }
-
-        // success
+        
         return redirect()->route('admin.index');
     }
 
