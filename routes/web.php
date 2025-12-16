@@ -46,14 +46,14 @@ Route::middleware('auth')->group(function () {
     // KABAG ROUTE
     Route::middleware('role:kabag')->group(function() {
         // daftar persetujuan kabag
-        Route::get('/persetujuan-kabag', [PengajuanController::class, 'kabagIndex'])
+        Route::get('/persetujuan', [PengajuanController::class, 'kabagIndex'])
             ->name('kabag.index');
 
         // action
-        Route::patch('/persetujuan-kabag/{id}/setuju', [PengajuanController::class, 'kabagSetuju'])
+        Route::patch('/persetujuan/{id}/setuju', [PengajuanController::class, 'kabagSetuju'])
             ->name('kabag.setuju');
 
-        Route::patch('/persetujuan-kabag/{id}/tolak', [PengajuanController::class, 'kabagTolak'])
+        Route::patch('/persetujuan/{id}/tolak', [PengajuanController::class, 'kabagTolak'])
             ->name('kabag.tolak');
     });
 
@@ -64,11 +64,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
 
         // page persetujuan admin
-        Route::get('/proses-admin', [PengajuanController::class, 'adminIndex'])
+        Route::get('/proses', [PengajuanController::class, 'adminIndex'])
             ->name('admin.index');
 
         // process action
-        Route::patch('/proses-admin/{id}/proses', [PengajuanController::class, 'adminProses'])
+        Route::patch('/proses/{id}/proses', [PengajuanController::class, 'adminProses'])
             ->name('admin.proses');
 
         Route::post('/stok-masuk', [ItemController::class, 'storeStokMasuk'])
@@ -78,14 +78,14 @@ Route::middleware('auth')->group(function () {
     // ROUTE UNTUK LAPORAN STOK BULANAN
     Route::middleware('role:admin,kabag')->group(function() {
         // page laporan
-        Route::get('/laporan/stok', [ItemController::class, 'showLaporanStokPage'])
+        Route::get('/laporan', [ItemController::class, 'showLaporanStokPage'])
             ->name('laporan.stok.page');
 
         // download
-        Route::get('/laporan/stok/download', [ItemController::class, 'downloadLaporanStok'])
+        Route::get('/laporan/download/bulan', [ItemController::class, 'downloadLaporanStok'])
             ->name('laporan.stok.download');
         
-        Route::get('/laporan-semesteran-download', [ItemController::class, 'downloadLaporanSemesteran'])
+        Route::get('/laporan/download/semester', [ItemController::class, 'downloadLaporanSemesteran'])
             ->name('laporan.semesteran');
     });
 });

@@ -132,7 +132,7 @@ export default function Dashboard({ auth, stats }) {
                 const index = points[0].index;
 
                 if (index === currentMonthIndex) {
-                    router.get("/laporan/stok");
+                    router.get(route("laporan.stok.page"));
                 }
             }
         },

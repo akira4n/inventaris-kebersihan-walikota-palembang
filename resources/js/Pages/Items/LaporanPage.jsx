@@ -90,7 +90,6 @@ export default function LaporanPage({ auth, summary, history, filters }) {
 
             <div className="py-8">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
-                    {/* --- BAGIAN 1: SUMMARY CARDS --- */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {/* Card 1: Masuk */}
                         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-shadow">
@@ -127,7 +126,7 @@ export default function LaporanPage({ auth, summary, history, filters }) {
                                     Barang Keluar
                                 </span>
                             </div>
-                            <div className="text-3xl font-bold text-gray-800">
+                            <div className="text-3xl font-bold text-gray-800 abs">
                                 {summary.keluar}{" "}
                                 <span className="text-sm text-gray-400 font-normal">
                                     Unit
@@ -185,7 +184,6 @@ export default function LaporanPage({ auth, summary, history, filters }) {
                         </div>
                     </div>
 
-                    {/* --- BAGIAN 2: TABEL MUTASI (MODERN) --- */}
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <div className="p-6 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                             <div className="flex items-center gap-3">
@@ -347,7 +345,6 @@ export default function LaporanPage({ auth, summary, history, filters }) {
                         )}
                     </div>
 
-                    {/* --- BAGIAN 3: DOWNLOAD FORMS (GRID STYLE) --- */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* FORM BULANAN */}
                         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col">
