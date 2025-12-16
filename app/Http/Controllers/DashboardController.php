@@ -39,24 +39,31 @@ class DashboardController extends Controller
             $stats['belum_selesai'] = Pengajuan::whereIn('status', ['Pending', 'Disetujui Kabag'])->count();
             $stats['selesai'] = Pengajuan::where('status', 'Selesai')->count();
 
+            $masukPerBulan = StokMutasi::selectRaw('MONTH(created_at) as bulan, SUM(jumlah) as total')
+                ->whereYear('created_at', $year)
+                ->where('tipe', 'masuk')
+                ->groupBy('bulan')
+                ->pluck('total', 'bulan');
+
+            $keluarPerBulan = StokMutasi::selectRaw('MONTH(created_at) as bulan, SUM(jumlah) as total')
+                ->whereYear('created_at', $year)
+                ->where('tipe', 'keluar')
+                ->groupBy('bulan')
+                ->pluck('total', 'bulan');
+
+            $pengajuanPerBulan = Pengajuan::selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+                ->whereYear('created_at', $year)
+                ->groupBy('bulan')
+                ->pluck('total', 'bulan');
+
             $dataMasuk = [];
             $dataKeluar = [];
             $dataPengajuan = [];
 
             for ($i = 1; $i <= 12; $i++) {
-                $dataMasuk[] = StokMutasi::whereYear('created_at', $year)
-                    ->whereMonth('created_at', $i)
-                    ->where('tipe', 'masuk')
-                    ->sum('jumlah');
-
-                $dataKeluar[] = abs(StokMutasi::whereYear('created_at', $year)
-                    ->whereMonth('created_at', $i)
-                    ->where('tipe', 'keluar')
-                    ->sum('jumlah'));
-
-                $dataPengajuan[] = Pengajuan::whereYear('created_at', $year)
-                    ->whereMonth('created_at', $i)
-                    ->count();
+                $dataMasuk[] = $masukPerBulan[$i] ?? 0;
+                $dataKeluar[] = abs($keluarPerBulan[$i] ?? 0);
+                $dataPengajuan[] = $pengajuanPerBulan[$i] ?? 0;
             }
 
             $stats['charts'] = [
