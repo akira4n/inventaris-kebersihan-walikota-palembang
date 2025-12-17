@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PengajuanController;
 
@@ -78,14 +79,14 @@ Route::middleware('auth')->group(function () {
     // ROUTE UNTUK LAPORAN STOK BULANAN
     Route::middleware('role:admin,kabag')->group(function() {
         // page laporan
-        Route::get('/laporan', [ItemController::class, 'showLaporanStokPage'])
+        Route::get('/laporan', [LaporanController::class, 'indexLaporan'])
             ->name('laporan.stok.page');
 
         // download
-        Route::get('/laporan/download/bulan', [ItemController::class, 'downloadLaporanStok'])
+        Route::get('/laporan/download/bulan', [LaporanController::class, 'LaporanBulan'])
             ->name('laporan.stok.download');
         
-        Route::get('/laporan/download/semester', [ItemController::class, 'downloadLaporanSemesteran'])
+        Route::get('/laporan/download/semester', [LaporanController::class, 'LaporanSemester'])
             ->name('laporan.semesteran');
     });
 });
