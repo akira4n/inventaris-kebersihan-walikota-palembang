@@ -47,7 +47,7 @@ class LaporanController extends Controller
                     ->paginate($perPage)
                     ->withQueryString();
 
-        return Inertia::render('Items/LaporanPage', [
+        return Inertia::render('Laporan/Index', [
             'summary' =>
             [
                 'masuk' => $barangMasuk,
