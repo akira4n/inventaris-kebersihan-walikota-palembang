@@ -1,8 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import { TambahBarangForm } from "@/Components/Items/TambahBarangForm";
-import { TambahStokForm } from "@/Components/Items/TambahStokForm";
-import { TabelBarang } from "@/Components/Items/TabelBarang";
+import { TambahBarangForm } from "./Patials/TambahBarang";
+import { TambahStokForm } from "./Patials/TambahStokForm";
+import { TabelBarang } from "./Patials/TabelBarang";
 
 export default function Index({ auth, items }) {
     return (
